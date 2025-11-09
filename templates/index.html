@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVD YouTube Recommender</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add aspect-ratio plugin for video embeds -->
+    <script src="https://cdn.tailwindcss.com?plugins=aspect-ratio"></script>
+    <!-- Using Inter font for a clean, modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Custom scrollbar for textarea */
+        textarea::-webkit-scrollbar { width: 8px; }
+        textarea::-webkit-scrollbar-track { background: #1f2937; }
+        textarea::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+        textarea::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+        /* For line-clamp */
+        .line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+    </style>
+</head>
+<body class="h-full text-gray-100">
+
+    <div class="min-h-full">
+        <!-- Header -->
+        <header class="bg-gray-800 shadow-lg">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+                <h1 class="text-3xl font-bold text-white tracking-tight">
+                    <span class="text-indigo-500">SVD</span> Recommender
+                </h1>
+                <div class="text-sm text-gray-400">Devloped by <a href="https://github.com/R72279A" target="_blank">Yadunandan Singh</a></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                <!-- Main Content Grid -->
+                <div class="px-4 py-6 sm:px-0">
+                    
+                    <!-- INPUT SECTION -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <!-- Liked Videos Card -->
+                        <div class="bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-700">
+                            <div class="p-5 bg-gray-800/50 border-b border-gray-700 flex items-center">
+                                <div class="h-8 w-8 rounded-full bg-green-900/30 flex items-center justify-center mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                                    </svg>
+                                </div>
+                                <h2 class="text-lg font-medium text-white">Liked Videos</h2>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-gray-400 mb-3">Paste URLs of videos you love, one per line.</p>
+                                <textarea id="liked-urls" rows="8" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm text-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" placeholder="https://www.youtube.com/watch?v=..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Hated Videos Card -->
+                        <div class="bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-700">
+                            <div class="p-5 bg-gray-800/50 border-b border-gray-700 flex items-center">
+                                <div class="h-8 w-8 rounded-full bg-red-900/30 flex items-center justify-center mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z" />
+                                    </svg>
+                                </div>
+                                <h2 class="text-lg font-medium text-white">Hated Videos</h2>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-gray-400 mb-3">Paste URLs of videos you dislike (optional).</p>
+                                <textarea id="hated-urls" rows="8" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm text-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all" placeholder="https://www.youtube.com/watch?v=..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Candidate Videos Card -->
+                        <div class="bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-700">
+                            <div class="p-5 bg-gray-800/50 border-b border-gray-700 flex items-center">
+                                <div class="h-8 w-8 rounded-full bg-blue-900/30 flex items-center justify-center mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <h2 class="text-lg font-medium text-white">Candidate Pool</h2>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-gray-400 mb-3">Paste URLs for the system to choose from.</p>
+                                <textarea id="candidate-urls" rows="8" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" placeholder="https://www.youtube.com/watch?v=..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button Area -->
+                    <div class="flex justify-center mb-10">
+                        <button id="recommend-btn" class="group relative flex items-center justify-center py-3 px-8 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span id="btn-text">Get Recommendations</span>
+                            <!-- Loading Spinner Icon -->
+                            <svg id="btn-spinner" class="hidden ml-3 -mr-1 h-5 w-5 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- RESULTS SECTION -->
+                    <div id="results-container" class="hidden">
+                        <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                            <span class="bg-indigo-600 h-8 w-1 mr-4 rounded-full"></span>
+                            Top Recommendations
+                        </h2>
+                        
+                        <!-- Error Message Box -->
+                        <div id="error-box" class="hidden mb-6 bg-red-900/50 border-l-4 border-red-500 p-4 rounded-md">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p id="error-message" class="text-sm text-red-200">Something went wrong.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Results List -->
+                        <div id="results-list" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Results will be injected here by JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('recommend-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('recommend-btn');
+            const btnText = document.getElementById('btn-text');
+            const spinner = document.getElementById('btn-spinner');
+            const resultsContainer = document.getElementById('results-container');
+            const resultsList = document.getElementById('results-list');
+            const errorBox = document.getElementById('error-box');
+            const errorMessage = document.getElementById('error-message');
+
+            // Helper to get non-empty lines from textarea
+            const getUrls = (id) => {
+                return document.getElementById(id).value
+                    .split('\n')
+                    .map(url => url.trim())
+                    .filter(url => url.length > 0);
+            };
+
+            const likedUrls = getUrls('liked-urls');
+            const hatedUrls = getUrls('hated-urls');
+            const candidateUrls = getUrls('candidate-urls');
+
+            // Basic validation
+            if (likedUrls.length === 0 || candidateUrls.length === 0) {
+                alert("Please enter at least one LIKED video and one CANDIDATE video.");
+                return;
+            }
+
+            // UI Loading State
+            btn.disabled = true;
+            btnText.textContent = "Processing... (This may take a minute)";
+            spinner.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            errorBox.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/recommend', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        liked_urls: likedUrls,
+                        hated_urls: hatedUrls,
+                        candidate_urls: candidateUrls
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // Clear previous results
+                    resultsList.innerHTML = '';
+
+                    // Render new results
+                    data.recommendations.forEach((rec, index) => {
+                        // 1. LIMIT TO TOP 3 RESULTS
+                        if (index >= 3) return;
+
+                        // Calculate a color based on score (Green for high, Gray for low)
+                        let scoreColorClass = 'text-gray-400';
+                        if (rec.score > 0.5) scoreColorClass = 'text-green-400';
+                        else if (rec.score > 0.2) scoreColorClass = 'text-green-200';
+                        
+                        const resultItem = `
+                            <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:border-indigo-500 transition-all">
+                                <!-- VIDEO EMBED (Click to play) -->
+                                <div class="aspect-w-16 aspect-h-9 bg-black relative">
+                                     <img src="${rec.thumbnail}" alt="${rec.title}" class="object-cover w-full h-full opacity-90 hover:opacity-100 transition-opacity cursor-pointer" onclick="this.nextElementSibling.classList.remove('hidden'); this.classList.add('hidden');">
+                                     <iframe src="https://www.youtube.com/embed/${rec.video_id}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="hidden absolute inset-0 w-full h-full"></iframe>
+                                     <!-- Play Button Overlay -->
+                                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                        <div class="bg-red-600 rounded-full p-3 shadow-xl opacity-90">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                     </div>
+                                </div>
+
+                                <!-- VIDEO INFO -->
+                                <div class="p-4 flex items-start justify-between">
+                                    <div>
+                                        <h3 class="text-lg font-bold text-white line-clamp-2">${rec.title}</h3>
+                                        <a href="${rec.url}" target="_blank" class="text-sm text-indigo-400 hover:text-indigo-300 mt-1 inline-block">
+                                            Open on YouTube ↗
+                                        </a>
+                                    </div>
+                                    <!-- MATCH SCORE -->
+                                    <div class="flex-shrink-0 ml-4 text-right">
+                                        <div class="text-xs uppercase tracking-wider text-gray-500 mb-1">Match</div>
+                                         <div class="text-2xl font-extrabold ${scoreColorClass}">
+                                            ${(rec.score * 100).toFixed(0)}%
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        resultsList.insertAdjacentHTML('beforeend', resultItem);
+                    });
+                    resultsContainer.classList.remove('hidden');
+                } else {
+                    // Show error from backend
+                    errorMessage.textContent = data.message || "An unknown error occurred.";
+                    resultsContainer.classList.remove('hidden');
+                    errorBox.classList.remove('hidden');
+                }
+
+            } catch (error) {
+                errorMessage.textContent = "Failed to connect to the server. Is Flask running?";
+                resultsContainer.classList.remove('hidden');
+                errorBox.classList.remove('hidden');
+            } finally {
+                // Reset UI state
+                btn.disabled = false;
+                btnText.textContent = "Get Recommendations";
+                spinner.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
