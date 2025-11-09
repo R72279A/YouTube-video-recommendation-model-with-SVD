@@ -1,83 +1,104 @@
-SVD-Based YouTube Recommender System
+# 🎬 SVD-Based YouTube Recommender System
 
-A content-based recommendation engine that uses Singular Value Decomposition (SVD) to understand a user's taste from their liked and hated YouTube videos. It can be run as a simple command-line tool or as a full-stack web application.
+A **content-based recommendation engine** powered by **Singular Value Decomposition (SVD)** that learns your unique taste from the YouTube videos you love — and even the ones you hate.
+You can run it either as a **command-line tool** or a **modern full-stack web app**.
 
-🚀 Features
+---
 
-Content-Based Filtering: Analyzes video metadata (title, description, tags, channel, category) to find hidden "concepts."
+## 🚀 Features
 
-User Taste Profiling: Creates a unique mathematical vector for a user by combining what they like and subtracting what they hate.
+### 🎯 Smart Recommendations
 
-SVD Engine: Uses scikit-learn's TfidfVectorizer and TruncatedSVD to perform dimensionality reduction and uncover latent patterns in video content.
+* **Content-Based Filtering** – Analyzes video metadata (*title, description, tags, channel, category*) to discover hidden “concepts.”
+* **User Taste Profiling** – Builds a *mathematical vector of your taste* by combining your liked videos and subtracting disliked ones.
+* **SVD Engine** – Leverages `TfidfVectorizer` + `TruncatedSVD` from scikit-learn to uncover *latent semantic patterns* in content.
 
-Dual Interface:
+### 💻 Dual Interface
 
-CLI Mode: Quick and easy testing directly from the terminal.
+* **🧠 CLI Mode:** Simple, quick testing from the terminal.
+* **🌐 Web Mode:** A responsive web UI built with **Flask + Tailwind CSS**, featuring:
 
-Web Mode: A modern, responsive web interface built with Flask and Tailwind CSS, featuring top-3 results, video thumbnails, and embedded playback.
+  * Top-3 personalized video recommendations
+  * YouTube thumbnails
+  * Embedded video playback
 
-🛠️ Tech Stack
+---
 
-Language: Python 3
+## 🛠️ Tech Stack
 
-Web Framework: Flask
+| Layer             | Tools / Libraries               |
+| :---------------- | :------------------------------ |
+| **Language**      | Python 3                        |
+| **Web Framework** | Flask                           |
+| **Data & ML**     | pandas, numpy, scikit-learn     |
+| **Scraping**      | yt-dlp                          |
+| **Frontend**      | HTML5, JavaScript, Tailwind CSS |
 
-Data & ML: pandas, numpy, scikit-learn
+---
 
-Scraping: yt-dlp
+## 📦 Installation
 
-Frontend: HTML5, JavaScript, Tailwind CSS
-
-📦 Installation
-
-Clone the repository:
-
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+```bash
+# Clone the repository
+git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
 
+# (Optional) Create a virtual environment
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
 
-Install dependencies:
-It's recommended to use a virtual environment.
-
+# Install dependencies
 pip install -r requirements.txt
+```
 
+---
 
-🏃‍♂️ How to Run
+## 🏃‍♂️ How to Run
 
-Option 1: Web Interface (Recommended)
+### Option 1: 🌐 Web Interface (Recommended)
 
-Run the Flask app:
-
+```bash
 python app.py
+```
 
+Then open your browser at 👉 **[http://127.0.0.1:5000](http://127.0.0.1:5000)**
 
-Open your browser and go to http://127.0.0.1:5000.
+**Steps:**
 
-Paste YouTube URLs for videos you like, hate (optional), and a list of candidate videos to test.
+1. Paste YouTube URLs of videos you **like** and **dislike (optional)**.
+2. Paste a list of **candidate videos** you want recommendations for.
+3. Click **“Get Recommendations”** — and watch the algorithm work its magic.
 
-Click "Get Recommendations" to see the magic!
+---
 
-Option 2: Command-Line Interface (CLI)
+### Option 2: 🧠 Command-Line Interface (CLI)
 
-Run the main script:
-
+```bash
 python main.py
+```
 
+Follow the on-screen prompts to:
 
-Follow the on-screen prompts to paste your lists of URLs.
+* Paste your liked/disliked video URLs
+* View your **top video recommendations** right in the terminal
 
-The top recommendations will be printed directly in the terminal.
+---
 
-📂 Project Structure
+## 📂 Project Structure
 
-app.py: Flask backend server for the web interface.
+```
+├── app.py              # Flask backend server (Web mode)
+├── main.py             # CLI entry point
+├── scraper.py          # Fetches metadata via yt-dlp
+├── svd_engine.py       # Core TF-IDF, SVD & cosine similarity logic
+├── templates/
+│   └── index.html      # Web frontend (HTML/JS)
+├── requirements.txt    # Python dependencies
+└── README.md           # Project documentation
+```
 
-main.py: Entry point for the CLI version.
+---
 
-scraper.py: Module for fetching metadata from YouTube URLs using yt-dlp.
+## 💡 Inspiration
 
-svd_engine.py: Core logic for TF-IDF, SVD, and cosine similarity calculations.
-
-templates/index.html: The frontend HTML/JS for the web app.
-
-requirements.txt: List of Python dependencies.
+Just like how Netflix uses SVD to understand viewing preferences, this project applies **Linear Algebra concepts** to YouTube video recommendations — bridging **MIT 18.06 theory** with **real-world machine learning practice**.
