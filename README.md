@@ -3,6 +3,8 @@
 A **content-based recommendation engine** powered by **Singular Value Decomposition (SVD)** that learns your unique taste from the YouTube videos you love — and even the ones you hate.
 You can run it either as a **command-line tool** or a **modern full-stack web app**.
 
+🔗 **GitHub Repository:** [YouTube-video-recommendation-model-with-SVD](https://github.com/R72279A/YouTube-video-recommendation-model-with-SVD)
+
 ---
 
 ## 🚀 Features
@@ -40,8 +42,8 @@ You can run it either as a **command-line tool** or a **modern full-stack web ap
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/R72279A/YouTube-video-recommendation-model-with-SVD.git
+cd YouTube-video-recommendation-model-with-SVD
 
 # (Optional) Create a virtual environment
 python -m venv venv
