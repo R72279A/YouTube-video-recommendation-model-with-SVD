@@ -99,7 +99,7 @@ Follow the on-screen prompts to:
 └── README.md           # Project documentation
 ```
 
-Read the related article on medium for free to gain more clearity [Don’t Be a “Dumb Computer”: SVD Explained Subtitle: I built a YouTube recommender to finally understand the math. Here’s how it works (using a “Subway Map” analogy).(https://medium.com/@jasrotia.yadunandan.singh584/dont-be-a-dumb-computer-svd-explained-subtitle-i-built-a-youtube-recommender-to-finally-155eabfbcbe6)]
+Read the related article on medium for free to gain more clearity [Don’t Be a “Dumb Computer”: SVD Explained Subtitle: I built a YouTube recommender to finally understand the math. Here’s how it works (using a “Subway Map” analogy).](https://medium.com/@jasrotia.yadunandan.singh584/dont-be-a-dumb-computer-svd-explained-subtitle-i-built-a-youtube-recommender-to-finally-155eabfbcbe6)
 
 ---
 
